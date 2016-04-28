@@ -22,6 +22,10 @@
   [ConflictedTimeWindow("2014-01-02 09:30", "2014-01-02 10:00", { 5, 6 }),
    ConflictedTimeWindow("2014-01-02 10:00", "2014-01-02 11:00", { 4, 5, 6 }),
    ConflictedTimeWindow("2014-01-02 11:00", "2014-01-02 11:30", { 5, 6 }]
+
+
+  Algorithm:
+    Basically, the idea is to sort all the times and do a sweep-line across them and look for interesting times
 **/
 
 #include <iostream>
