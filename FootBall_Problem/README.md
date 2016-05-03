@@ -11,8 +11,11 @@ DP recurrence relation can be formulated as below:
   td => true indicates that touchdown is scored currently, false indicates no touchdown
  
                      |  1                                                                       if score is 0
+
                      |  0                                                                       if score < 0
+
   count(score, td) = |  count(score-1, false) + count(score-2, false) + count(score, false)     if td is true
+
                      |  count(score-6, true) + count(score-3, false)                            otherwise
 
   count(score, 0)  will be our required solution
