@@ -2,23 +2,32 @@
 #include <unordered_map>
 using namespace std;
 
+/*
+   This is a solution to the LeetCode Challenge https://leetcode.com/problems/minimum-window-substring/
+   @author: Narasimha Murthy
+   The basic idea is to first find a window between "begin" and "end" that contains all the required chars.
+   Then starting from "end", keep adding the chars to the window. Once you encounter a char that is same as char at "begin",
+   keep deleting chars from the "begin" of the window you reach a char which is in 't' and whose count is same as it's count in 't'.
+   Update the minimum window length accordingly
+*/
+
 void printMap(unordered_map<char,int> map){
-        unordered_map<char, int>::const_iterator itr = map.begin();
-        while(itr != map.end()){
-            cout << itr->first << ", " << itr->second << endl;
-            ++itr;
-        }
-    }
+  unordered_map<char, int>::const_iterator itr = map.begin();
+  while(itr != map.end()){
+    cout << itr->first << ", " << itr->second << endl;
+    ++itr;
+  }
+}
 
 string minWindow(string s, string t){
   unordered_map<char, int> tMap, dup, windowMap;
   for(int i=0; i < t.size(); ++i){
-      if(tMap.count(t[i]) == 0){
+    if(tMap.count(t[i]) == 0){
       //Add the new element to the map
       tMap[t[i]] = 1;
-      }else{
-          ++tMap[t[i]];
-      }
+    }else{
+      ++tMap[t[i]];
+    }
   }
 
   dup = tMap;
@@ -62,7 +71,7 @@ string minWindow(string s, string t){
   }
 
   //Find the minimum window. Scan through each char from "end" inserting into windowMap until you reach the char equal to "begin" char.
-  //Start removing chars from begin untilyou reach a char whose count is same as tMap. Update the min len 
+  //Start removing chars from begin until you reach a char whose count is same as tMap. Update the min len 
   int min_begin = begin;
   int min_end = end; 
   int min_len = end - begin + 1;
