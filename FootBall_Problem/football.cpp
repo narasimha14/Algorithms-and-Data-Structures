@@ -49,10 +49,10 @@ int count_dp(int score, int td, int arr[][2]){
   }
 
   if(td){
-    return count_dp2(score-1, 0, arr) + count_dp2(score-2, 0, arr) + count_dp2(score, 0, arr);
+    return count_dp(score-1, 0, arr) + count_dp(score-2, 0, arr) + count_dp(score, 0, arr);
   }
 
-  return count_dp2(score-6, 1, arr) + count_dp2(score-3, 0, arr);
+  return count_dp(score-6, 1, arr) + count_dp(score-3, 0, arr);
 }
 
 /* Iterative Dynamic Programming Solution*/
