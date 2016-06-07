@@ -117,6 +117,7 @@ class Database {
     Table* InnerJoin(
         const Table* left_table, const string& left_table_key_name,
         const Table* right_table, const string& right_table_key_name) {
+      // IMPLEMENT ME
       vector<string> left_columns = left_table->column_names();
       vector<string> right_columns = right_table->column_names();
 
@@ -163,6 +164,7 @@ class Database {
         const Table* left_table, const string& left_table_key_name,
         const Table* right_table, const string& right_table_key_name) {
 
+      // IMPLEMENT ME
       vector<string> left_columns = left_table->column_names();
       vector<string> right_columns = right_table->column_names();
 
@@ -221,6 +223,7 @@ class Database {
         const Table* left_table, const string& left_table_key_name,
         const Table* right_table, const string& right_table_key_name) {
 
+      // IMPLEMENT ME
       vector<string> left_columns = left_table->column_names();
       vector<string> right_columns = right_table->column_names();
 
@@ -279,6 +282,7 @@ class Database {
         const Table* left_table, const string& left_table_key_name,
         const Table* right_table, const string& right_table_key_name) {
 
+      // IMPLEMENT ME
       Table *leftjoin = LeftJoin(left_table, left_table_key_name, right_table, right_table_key_name);
       Table *rightjoin = RightJoin(left_table, left_table_key_name, right_table, right_table_key_name);
 
@@ -310,8 +314,6 @@ class Database {
 #define __main__
 
 int main(int argc, char* argv[]) {
-  //vector<string> col1("id, "name");
-  //vector<string> col2("0", "engineering");
   const Table* department_table = new Table(
       "departments",
       { "id", "name" },
