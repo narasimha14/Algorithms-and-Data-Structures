@@ -114,71 +114,6 @@ class Database {
     const Table* GetTable(const string& table_name) { return table_map_[table_name]; }
 
     // Callee will own the returned pointer
-    /* 
-       Table* InnerJoin(
-       const Table* left_table, const string& left_table_key_name,
-       const Table* right_table, const string& right_table_key_name) {
-
-    // IMPLEMENT ME
-    vector<string> lefttable_columns;
-    lefttable_columns = left_table->column_names();
-    vector< vector<string> > left_data;
-    left_data= left_table->data();
-    vector<string> righttable_columns;
-    righttable_columns = right_table->column_names();
-    vector< vector<string> > right_data;
-    right_data= right_table->data();
-
-    int idx_left, idx_right;
-    for( int i =0; lefttable_columns.size(); ++i){
-    if(left_table_key_name == lefttable_columns[i]){
-    idx_left = i;
-    break;
-    }
-    }
-    for( int i =0; righttable_columns.size(); ++i){
-    if(right_table_key_name == righttable_columns[i]){
-    idx_right = i;
-    break;
-    }
-    }
-
-    vector<string> out;
-    vector< vector<string> > out2;
-    out.push_back("users.name");
-    out.push_back("departments.name");
-    int idx_name_l, idx_name_r;
-    for(int i=0; i< lefttable_columns.size(); ++i)
-    {
-    if(lefttable_columns[i] == "name"){
-    idx_name_l = i;
-    break;
-    }
-    }
-    for(int i=0; i< righttable_columns.size(); ++i)
-    {
-    if(righttable_columns[i] == "name"){
-    idx_name_r = i;
-    break;
-    }
-    }
-
-    for(int i =0; i < left_data.size(); ++i){
-    vector<string> out3;
-    out3.push_back(left_data[i][idx_name_l]);
-    for(int j=0; j < right_data.size(); ++j){
-    if(right_data[j][idx_right] == left_data[i][idx_left]){
-    out3.push_back(right_data[j][idx_name_r]);
-    }
-    }
-    if(out3.size() != 0)
-    out2.push_back(out3);
-
-    }
-    return new Table("InnerJoin", out, out2);
-    }
-    */
-
     Table* InnerJoin(
         const Table* left_table, const string& left_table_key_name,
         const Table* right_table, const string& right_table_key_name) {
@@ -223,390 +158,152 @@ class Database {
 
 
     // Callee will own the returned pointer
-    /*
-       Table* LeftJoin(
-       const Table* left_table, const string& left_table_key_name,
-       const Table* right_table, const string& right_table_key_name) {
-// IMPLEMENT ME
-vector<string> lefttable_columns;
-lefttable_columns = left_table->column_names();
-vector< vector<string> > left_data;
-left_data= left_table->data();
-vector<string> righttable_columns;
-righttable_columns = right_table->column_names();
-vector< vector<string> > right_data;
-right_data= right_table->data();
 
-int idx_left, idx_right;
-for( int i =0; lefttable_columns.size(); ++i){
-if(left_table_key_name == lefttable_columns[i]){
-idx_left = i;
-break;
-}
-}
-for( int i =0; righttable_columns.size(); ++i){
-if(right_table_key_name == righttable_columns[i]){
-idx_right = i;
-break;
-}
-}
+    Table* LeftJoin(
+        const Table* left_table, const string& left_table_key_name,
+        const Table* right_table, const string& right_table_key_name) {
 
-vector<string> out;
-vector< vector<string> > out2;
-out.push_back("users.name");
-out.push_back("salaries.amount");
-int idx_name_l, idx_name_r;
-for(int i=0; i< lefttable_columns.size(); ++i)
-{
-if(lefttable_columns[i] == "name"){
-idx_name_l = i;
-break;
-}
-}
-for(int i=0; i< righttable_columns.size(); ++i)
-{
-if(righttable_columns[i] == "amount"){
-idx_name_r = i;
-break;
-}
-}
-set<string> set_left;
-set<string> set_right;
-for(int i =0; i < left_data.size(); ++i){
-set_left.insert(left_data[i][idx_left]);
-for(int j=0; j < right_data.size(); ++j){
-set_right.insert(right_data[j][idx_right]);
-vector<string> out3;
-if(right_data[j][idx_right] == left_data[i][idx_left]){
-out3.push_back(left_data[i][idx_name_l]);
-out3.push_back(right_data[j][idx_name_r]);
-}
-if(out3.size() != 0)
-out2.push_back(out3);
-}
+      vector<string> left_columns = left_table->column_names();
+      vector<string> right_columns = right_table->column_names();
 
-}
-set<string>::iterator it;
-vector<string> out3;
-for(int i=0; i< left_data.size(); ++i){
-it = set_right.find(left_data[i][idx_left]);
-if(it == set_right.end() ){
-out3.push_back(left_data[i][idx_name_l]);
-out3.push_back("");
-out2.push_back(out3);
-}
-}
-return new Table("LeftJoin", out, out2);
-}
-*/
-
-Table* LeftJoin(
-    const Table* left_table, const string& left_table_key_name,
-    const Table* right_table, const string& right_table_key_name) {
-
-  vector<string> left_columns = left_table->column_names();
-  vector<string> right_columns = right_table->column_names();
-
-  int idx_left, idx_right;
-  vector<string> out2, columns;
-  for(int i=0; i < left_columns.size(); ++i){
-    columns.push_back(left_table->name()+"."+left_columns[i]);
-    if(left_columns[i] == left_table_key_name){
-      idx_left = i;
-    }
-  }
-  for(int i=0; i < right_columns.size(); ++i){
-    columns.push_back(right_table->name()+"."+right_columns[i]);
-    if(right_columns[i] == right_table_key_name){
-      idx_right = i;
-    }
-  }
-
-  vector<vector<string> > left_data = left_table->data();
-  vector<vector<string> > right_data = right_table->data();
-  vector<vector<string> > out;
-  vector<bool> set(left_data.size(), false);
-  for(int i=0; i < left_data.size();++i){
-    for(int j=0; j < right_data.size(); ++j){
-      if(left_data[i][idx_left] == right_data[j][idx_right]){
-        set[i] = true;
-        for(int k=0; k < left_data[i].size(); ++k){
-          out2.push_back(left_data[i][k]);
+      int idx_left, idx_right;
+      vector<string> out2, columns;
+      for(int i=0; i < left_columns.size(); ++i){
+        columns.push_back(left_table->name()+"."+left_columns[i]);
+        if(left_columns[i] == left_table_key_name){
+          idx_left = i;
         }
-        for(int k=0; k < right_data[j].size(); ++k){
-          out2.push_back(right_data[j][k]);
+      }
+      for(int i=0; i < right_columns.size(); ++i){
+        columns.push_back(right_table->name()+"."+right_columns[i]);
+        if(right_columns[i] == right_table_key_name){
+          idx_right = i;
         }
-        out.push_back(out2);
-        out2.clear();
       }
-    }
-  }
 
-  for(int i=0; i < set.size(); ++i){
-    if(!set[i]){
-      for(int k=0; k < left_data[i].size(); ++k){
-        out2.push_back(left_data[i][k]);
-      }
-      for(int k=0;k < right_columns.size();++k){
-        out2.push_back("");
-      }
-      out.push_back(out2);   
-    }
-  } 
-  return new Table("LeftJoin", columns, out);
-
-}
-
-
-/*Table* RightJoin(
-  const Table* left_table, const string& left_table_key_name,
-  const Table* right_table, const string& right_table_key_name) {
-// IMPLEMENT ME
-vector<string> lefttable_columns;
-lefttable_columns = left_table->column_names();
-vector< vector<string> > left_data;
-left_data= left_table->data();
-vector<string> righttable_columns;
-righttable_columns = right_table->column_names();
-vector< vector<string> > right_data;
-right_data= right_table->data();
-
-int idx_left, idx_right;
-for( int i =0; lefttable_columns.size(); ++i){
-if(left_table_key_name == lefttable_columns[i]){
-idx_left = i;
-break;
-}
-}
-for( int i =0; righttable_columns.size(); ++i){
-if(right_table_key_name == righttable_columns[i]){
-idx_right = i;
-break;
-}
-}
-
-vector<string> out;
-vector< vector<string> > out2;
-out.push_back("users.name");
-out.push_back("salaries.amount");
-int idx_name_l, idx_name_r;
-for(int i=0; i< lefttable_columns.size(); ++i)
-{
-if(lefttable_columns[i] == "name"){
-idx_name_l = i;
-break;
-}
-}
-for(int i=0; i< righttable_columns.size(); ++i)
-{
-if(righttable_columns[i] == "amount"){
-idx_name_r = i;
-break;
-}
-}
-set<string> set_left;
-set<string> set_right;
-for(int i =0; i < left_data.size(); ++i){
-set_left.insert(left_data[i][idx_left]);
-for(int j=0; j < right_data.size(); ++j){
-set_right.insert(right_data[j][idx_right]);
-vector<string> out3;
-if(right_data[j][idx_right] == left_data[i][idx_left]){
-out3.push_back(left_data[i][idx_name_l]);
-out3.push_back(right_data[j][idx_name_r]);
-}
-if(out3.size() != 0)
-out2.push_back(out3);
-}
-
-}
-set<string>::iterator it;
-vector<string> out3;
-for(int i=0; i< right_data.size(); ++i){
-it = set_left.find(right_data[i][idx_right]);
-if(it == set_left.end() ){
-out3.push_back("");
-out3.push_back(right_data[i][idx_name_r]);
-out2.push_back(out3);
-}
-}
-return new Table("RightJoin", out, out2);
-}
-*/
-
-Table* RightJoin(
-    const Table* left_table, const string& left_table_key_name,
-    const Table* right_table, const string& right_table_key_name) {
-
-  vector<string> left_columns = left_table->column_names();
-  vector<string> right_columns = right_table->column_names();
-
-  int idx_left, idx_right;
-  vector<string> out2, columns;
-  for(int i=0; i < left_columns.size(); ++i){
-    columns.push_back(left_table->name()+"."+left_columns[i]);
-    if(left_columns[i] == left_table_key_name){
-      idx_left = i;
-    }
-  }
-  for(int i=0; i < right_columns.size(); ++i){
-    columns.push_back(right_table->name()+"."+right_columns[i]);
-    if(right_columns[i] == right_table_key_name){
-      idx_right = i;
-    }
-  }
-
-  vector<vector<string> > left_data = left_table->data();
-  vector<vector<string> > right_data = right_table->data();
-  vector<vector<string> > out;
-  vector<bool> set(right_data.size(), false);
-  for(int i=0; i < right_data.size();++i){
-    for(int j=0; j < left_data.size(); ++j){
-      if(right_data[i][idx_right] == left_data[j][idx_left]){
-        set[i] = true;
-        for(int k=0; k < left_columns.size(); ++k){
-          out2.push_back(left_data[j][k]);
+      vector<vector<string> > left_data = left_table->data();
+      vector<vector<string> > right_data = right_table->data();
+      vector<vector<string> > out;
+      vector<bool> set(left_data.size(), false);
+      for(int i=0; i < left_data.size();++i){
+        for(int j=0; j < right_data.size(); ++j){
+          if(left_data[i][idx_left] == right_data[j][idx_right]){
+            set[i] = true;
+            for(int k=0; k < left_data[i].size(); ++k){
+              out2.push_back(left_data[i][k]);
+            }
+            for(int k=0; k < right_data[j].size(); ++k){
+              out2.push_back(right_data[j][k]);
+            }
+            out.push_back(out2);
+            out2.clear();
+          }
         }
-        for(int k=0; k < right_columns.size(); ++k){
-          out2.push_back(right_data[i][k]);
+      }
+
+      for(int i=0; i < set.size(); ++i){
+        if(!set[i]){
+          for(int k=0; k < left_data[i].size(); ++k){
+            out2.push_back(left_data[i][k]);
+          }
+          for(int k=0;k < right_columns.size();++k){
+            out2.push_back("");
+          }
+          out.push_back(out2);   
         }
-        out.push_back(out2);
-        out2.clear();
-      }
-    }  
-  }
+      } 
+      return new Table("LeftJoin", columns, out);
 
-  for(int i=0; i < set.size(); ++i){
-    if(!set[i]){
-      for(int k=0; k < left_columns.size(); ++k){
-        out2.push_back("");
-      }
-      for(int k=0; k < right_columns.size(); ++k){
-        out2.push_back(right_data[i][k]);
-      }
-      out.push_back(out2);
-      out2.clear();
     }
-  } 
-  return new Table("RightJoin", columns, out); 
-}
 
-// Callee will own the returned pointer
-/*
-   Table* OuterJoin(
-   const Table* left_table, const string& left_table_key_name,
-   const Table* right_table, const string& right_table_key_name) {
-// IMPLEMENT ME
-vector<string> lefttable_columns;
-lefttable_columns = left_table->column_names();
-vector< vector<string> > left_data;
-left_data= left_table->data();
-vector<string> righttable_columns;
-righttable_columns = right_table->column_names();
-vector< vector<string> > right_data;
-right_data= right_table->data();
 
-int idx_left, idx_right;
-for( int i =0; lefttable_columns.size(); ++i){
-if(left_table_key_name == lefttable_columns[i]){
-idx_left = i;
-break;
-}
-}
-for( int i =0; righttable_columns.size(); ++i){
-if(right_table_key_name == righttable_columns[i]){
-idx_right = i;
-break;
-}
-}
+    Table* RightJoin(
+        const Table* left_table, const string& left_table_key_name,
+        const Table* right_table, const string& right_table_key_name) {
 
-vector<string> out;
-vector< vector<string> > out2;
-out.push_back("users.name");
-out.push_back("salaries.amount");
-int idx_name_l, idx_name_r;
-for(int i=0; i< lefttable_columns.size(); ++i)
-{
-if(lefttable_columns[i] == "name"){
-idx_name_l = i;
-break;
-}
-}
-for(int i=0; i< righttable_columns.size(); ++i)
-{
-if(righttable_columns[i] == "amount"){
-idx_name_r = i;
-break;
-}
-}
-set<string> set_left;
-set<string> set_right;
-for(int i =0; i < left_data.size(); ++i){
-set_left.insert(left_data[i][idx_left]);
-for(int j=0; j < right_data.size(); ++j){
-set_right.insert(right_data[j][idx_right]);
-vector<string> out3;
-if(right_data[j][idx_right] == left_data[i][idx_left]){
-out3.push_back(left_data[i][idx_name_l]);
-out3.push_back(right_data[j][idx_name_r]);
-}
-if(out3.size() != 0)
-out2.push_back(out3);
-}
+      vector<string> left_columns = left_table->column_names();
+      vector<string> right_columns = right_table->column_names();
 
-}
-set<string>::iterator it;
-vector<string> out3;
-for(int i=0; i< left_data.size(); ++i){
-it = set_right.find(left_data[i][idx_left]);
-if(it == set_right.end() ){
-out3.push_back(left_data[i][idx_name_l]);
-out3.push_back("");
-out2.push_back(out3);
-}
-}
-out3.clear();
-for(int i=0; i< right_data.size(); ++i){
-  it = set_left.find(right_data[i][idx_right]);
-  if(it == set_left.end() ){
-    out3.push_back("");
-    out3.push_back(right_data[i][idx_name_r]);
-    out2.push_back(out3);
-  }
-}
-return new Table("OuterJoin", out, out2);
-} 
-*/
-
-Table* OuterJoin(
-    const Table* left_table, const string& left_table_key_name,
-    const Table* right_table, const string& right_table_key_name) {
-
-  Table *leftjoin = LeftJoin(left_table, left_table_key_name, right_table, right_table_key_name);
-  Table *rightjoin = RightJoin(left_table, left_table_key_name, right_table, right_table_key_name);
-
-  int right_columns_size = right_table->column_names().size();
-
-  vector<vector<string> > left_data = leftjoin->data();
-  vector<vector<string> > right_data = rightjoin->data();
-  vector<vector<string> > out = left_data;
-  for(int i=0; i < right_data.size(); ++i){
-    bool append = true;
-    for(int j=0; j < right_columns_size; ++j){
-      if(right_data[i][j] != ""){
-        append = false;
+      int idx_left, idx_right;
+      vector<string> out2, columns;
+      for(int i=0; i < left_columns.size(); ++i){
+        columns.push_back(left_table->name()+"."+left_columns[i]);
+        if(left_columns[i] == left_table_key_name){
+          idx_left = i;
+        }
       }
-    }
-    if(append){
-      out.push_back(right_data[i]);
-    }
-  }
+      for(int i=0; i < right_columns.size(); ++i){
+        columns.push_back(right_table->name()+"."+right_columns[i]);
+        if(right_columns[i] == right_table_key_name){
+          idx_right = i;
+        }
+      }
 
-  return new Table("OuterJoin", leftjoin->column_names(), out);
-}
+      vector<vector<string> > left_data = left_table->data();
+      vector<vector<string> > right_data = right_table->data();
+      vector<vector<string> > out;
+      vector<bool> set(right_data.size(), false);
+      for(int i=0; i < right_data.size();++i){
+        for(int j=0; j < left_data.size(); ++j){
+          if(right_data[i][idx_right] == left_data[j][idx_left]){
+            set[i] = true;
+            for(int k=0; k < left_columns.size(); ++k){
+              out2.push_back(left_data[j][k]);
+            }
+            for(int k=0; k < right_columns.size(); ++k){
+              out2.push_back(right_data[i][k]);
+            }
+            out.push_back(out2);
+            out2.clear();
+          }
+        }  
+      }
 
-private:
-map<string, const Table*> table_map_;
+      for(int i=0; i < set.size(); ++i){
+        if(!set[i]){
+          for(int k=0; k < left_columns.size(); ++k){
+            out2.push_back("");
+          }
+          for(int k=0; k < right_columns.size(); ++k){
+            out2.push_back(right_data[i][k]);
+          }
+          out.push_back(out2);
+          out2.clear();
+        }
+      } 
+      return new Table("RightJoin", columns, out); 
+    }
+
+    // Callee will own the returned pointer
+    Table* OuterJoin(
+        const Table* left_table, const string& left_table_key_name,
+        const Table* right_table, const string& right_table_key_name) {
+
+      Table *leftjoin = LeftJoin(left_table, left_table_key_name, right_table, right_table_key_name);
+      Table *rightjoin = RightJoin(left_table, left_table_key_name, right_table, right_table_key_name);
+
+      int right_columns_size = right_table->column_names().size();
+
+      vector<vector<string> > left_data = leftjoin->data();
+      vector<vector<string> > right_data = rightjoin->data();
+      vector<vector<string> > out = left_data;
+      for(int i=0; i < right_data.size(); ++i){
+        bool append = true;
+        for(int j=0; j < right_columns_size; ++j){
+          if(right_data[i][j] != ""){
+            append = false;
+          }
+        }
+        if(append){
+          out.push_back(right_data[i]);
+        }
+      }
+
+      return new Table("OuterJoin", leftjoin->column_names(), out);
+    }
+
+  private:
+    map<string, const Table*> table_map_;
 };
 
 #ifndef __main__
