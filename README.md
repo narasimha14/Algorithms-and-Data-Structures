@@ -1,3 +1,5 @@
+Starting Point:
+
 Implement a Calendar class which supports two operations:
 
 Schedule events
@@ -18,3 +20,9 @@ For example,
  // [ConflictedTimeWindow("2014-01-02 09:30", "2014-01-02 10:00", { 5, 6 }),
  //  ConflictedTimeWindow("2014-01-02 10:00", "2014-01-02 11:00", { 4, 5, 6 }),
  //  ConflictedTimeWindow("2014-01-02 11:00", "2014-01-02 11:30", { 5, 6 }]
+
+
+
+SQL:
+
+Implement various functions of SQL like Where, inner join, outer join, etc.
