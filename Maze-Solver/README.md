@@ -5,5 +5,6 @@ This is a Maze Solver solved using three different algorithms: Depth-First Searc
 DFS does not give the shortest path whereas the other algorithms do.
 
 Mazes are in the "Mazes" folder. Compile the program and pass the filename of the Maze to std::cin via the redirect operator in the command line as below:
-	** ./a.out < Mazes/maze1.txt **
+
+** ./a.out < Mazes/maze1.txt **
 
