@@ -130,7 +130,7 @@ std::vector<int> bellman_ford(int src, std::vector< std::vector<std::pair<int, i
         int second_node = edges[j][k].first;
         int edge_cost = edges[j][k].second;
 
-        if( cost[j] + edge_cost < cost[second_node]){
+        if( cost[j] != INT_MAX && cost[j] + edge_cost < cost[second_node]){
           cost[second_node] = cost[j] + edge_cost;
         }
       }
@@ -159,7 +159,7 @@ std::vector<int> bellman_ford(int src, std::vector< std::vector<std::pair<int, i
         int second_node = edges[j][k].first;
         int edge_cost = edges[j][k].second;
 
-        if( cost[j] + edge_cost < cost[second_node]){
+        if( cost[j] != INT_MAX && cost[j] + edge_cost < cost[second_node]){
           cost[second_node] = cost[j] + edge_cost;
           parent[second_node] = j;
         }
